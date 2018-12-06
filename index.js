@@ -1,10 +1,20 @@
+//Initial setup - Express, HTTP, Socket.io
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
-const port = 8082;
+var io = require('socket.io')(http);
+const port = 8082; 
 
-app.use(express.static('webfiles')); //Open Webfiles for serving to client
+//Game Server
+var GameServer = require('./server');
+server = new GameServer(io, http, app);
 
+//Game Server setup
+server.loadModule(require('./modules/menu-module'));
+
+
+//Express Setup
+app.use(express.static('webfiles')); 
 app.get('/', (req, res) => 
 {
     res.sendFile(__dirname + '/index.html');
@@ -12,7 +22,8 @@ app.get('/', (req, res) =>
 
 
 
-http.listen(port, () => 
-{
-    console.log("Listening on port " + port);
-});
+
+
+
+server.startServer(port);
+

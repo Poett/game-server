@@ -9,7 +9,45 @@
     
 </head>
 <body>
-    index page
+    <div class="menu-container">
+        
+        <form  class="menu-panel" id="main-menu-form" action="" >
+            <button type="button" id='host-button'><span>Host Game</span></button>
+            <button type="button" id='join-button'><span>Join Game</span></button>
+            <button type="button" id='settings-button'><span>Settings</span></button>
+        </form>
+    </div>
+
+    <div class="popup" id="host">
+        <div class="popup-content">
+            <button class="close">&times;</button>
+            Room Name: 
+            <form action= "" id="host-form">
+                <input id="room-name-input">
+                <button>Host</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="rooms">
+        <div class="popup-content">
+            <button class="close">&times;</button>
+            <ul id="rooms-list">
+            </ul>
+            
+        </div>
+    </div>
+    
+    <div class="popup" id="settings">
+        <div class="popup-content">
+            <button class="close">&times;</button>
+            Username: 
+            <form action= "" id="settings-form">
+                <input id="username-input">
+                <button>Accept</button>
+            </form>
+        </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
