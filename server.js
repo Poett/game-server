@@ -1,4 +1,3 @@
-let SocketManager = require('./modules/main-manager');
 let Game = require('./modules/game');
 
 module.exports = class GameServer
@@ -23,7 +22,7 @@ module.exports = class GameServer
     //Games Collection Methods
     getGame(gamename) 
     {
-        this.games.get(gamename);
+       return this.games.get(gamename);
     }
     addGame(gamename) 
     {
@@ -51,18 +50,9 @@ module.exports = class GameServer
 
     createGame(name)
     {
-        let newGame = new Game(name);
-        this.makeGamePage(newGame);
+        let newGame = new Game(name, this.io);
 
         return newGame;
-    }
-
-    makeGamePage(game)
-    {
-        this.app.get(`/${game.name}`, (req, res) => 
-        {
-            res.sendFile(__dirname + 'game.html');
-        });
     }
 
 
@@ -80,7 +70,16 @@ module.exports = class GameServer
             {
                 module(server, socket);    
             });
+
+            console.log("Client Connected");
+
+
+            socket.on('disonnect', (reason) => 
+            {
+                console.log(`${socket.username} disconnected.`);
+            })
         })
+
     }
 
     startServer(port)

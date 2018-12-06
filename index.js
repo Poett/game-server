@@ -11,6 +11,7 @@ server = new GameServer(io, http, app);
 
 //Game Server setup
 server.loadModule(require('./modules/menu-module'));
+server.loadModule(require('./modules/game-module'));
 
 
 //Express Setup

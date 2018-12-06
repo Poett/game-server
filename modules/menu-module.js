@@ -4,7 +4,6 @@ module.exports = function(server, socket)
     let events = 
         {
             //Menu Events
-            "set-username" : setUsername,
             "host-game" : hostGame,
             "join-game" : joinGame,
             "leave-game" : leaveGame,
@@ -18,36 +17,35 @@ module.exports = function(server, socket)
     let io = server.io;
     let app = server.app;
 
-    function setUsername(username)
-    {
-        for(var i in io.sockets.connected)
-        {
-            if(username === io.sockets.connected[i].username)
-            {
-                console.log(`${socket.username} tried to change their username to ${username} but it was taken.`);
-                return;
-            }
-        }
-
-        console.log(`${socket.username} changed their username to ${username}`);
-        socket.username = username;
-    }
-
     function hostGame(gamename)
     {
-        if(server.addGame(gamename))
-        {
-            let game = server.getGame(gamename);
-        }
+        server.addGame(gamename);
+
+        let game = server.getGame(gamename);
+        game.setPlayer1(socket);
+
+        socket.join(`${gamename}`);
+        socket.leave('menu');
+        socket.emit('display-game');
     }
 
     function joinGame(gamename)
     {
-        socket.leave('menu');
-        socket.join(gamename);
+        let game = server.getGame(gamename);
+        if(game !== 'undefined')
+        {
+            
+            socket.join(`${gamename}`);
+            socket.leave('menu');
+            socket.emit('display-game');
+            game.setPlayer2(socket);
+            game.startGame();
+        }
     }
 
-    function leaveGame(gamename){}
+    function leaveGame(gamename)
+    {
+    }
 
     function getGames()
     {
@@ -61,11 +59,6 @@ module.exports = function(server, socket)
 
         socket.emit('get-games', games);
     }
-
-
-
-
-
 
     //Add events for the passed-in socket for the current module
     for (const key in events) {

@@ -15,6 +15,20 @@ body
     flex-grow: 1;
 }
 
+
+#menu-layout
+{
+	z-index: 1;
+	
+
+}
+
+#game-layout
+{
+	z-index: 0;
+	display: none;
+}
+
 div.menu-container
 {
     display: flex;
@@ -165,4 +179,109 @@ button:focus,
     opacity: 1;
     cursor: pointer;
     background-color: rgba(108, 196, 255, 0.31);
+}
+
+
+#gameBox 
+{
+	width: 60%;
+	float: left;
+}
+
+
+#gameBoard
+{
+	margin: 10% auto;
+	width:480px;
+    height:480px;
+	border: 2px inset rgb(105, 28, 5, 0.315);
+}
+
+
+
+#chatBox
+{
+	width: 35%;
+	float: right;
+	
+	border: 5px inset rgba(96, 115, 199, 0.315);
+}
+
+.box
+{
+	width: 60px;
+	height: 60px;
+	float:left;
+}
+
+.white
+{
+  background: white;
+}
+
+.black
+{
+  background: rgba(116, 46, 0, 0.651);
+}
+
+
+#userInputBox {
+  margin: auto;
+  width: 50%;
+  padding: 15rem 25%;
+}
+
+
+
+#chatContainer
+{
+	position : relative; 
+	bottom: 0;
+	margin: 0 auto;
+    width: 90%;
+	
+	overflow-x: auto;
+	overflow-y: scroll;
+	height: 36rem;
+}
+.page-header
+{
+	text-align: center;
+}
+
+
+#chatSubmit
+{
+	width: auto;
+	margin: 0 auto;
+	background: black;
+}
+
+#textBox
+{
+	margin: 5px;
+	width: 90%;
+	float: left;
+	background-color: white;
+	color: black;
+}
+
+#textbutton
+{
+	border-style: inset;
+}
+
+#messages
+{
+	color: #F3A900;
+	text-align: left;
+}
+
+#messages li
+{	
+	float:left;
+    clear:left;
+	overflow: hidden;
+	white-space:nowrap;
+	letter-spacing: .10em;
 }
