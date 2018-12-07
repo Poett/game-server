@@ -66,6 +66,15 @@ module.exports = class Game
 
     }
 
+
+    endGame()
+    {
+        this.ball.vel.x = 0;
+        this.ball.vel.y = 0;
+        this.ball.x = this.WIDTH/2;
+        this.ball.y = this.HEIGHT/2;
+    }
+
     startGame()
     {
         this.player1.x = this.player1.width;
@@ -84,11 +93,13 @@ module.exports = class Game
 
     setPlayer1(socket)
     {
+        if(this.player1Socket === undefined)
         this.player1Socket = socket;
     }
 
     setPlayer2(socket)
     {
+        if(this.player2Socket === undefined)
         this.player2Socket = socket;
     }
 
@@ -130,7 +141,7 @@ module.exports = class Game
             return ax < bx+bw && ay < by+bh && bx < ax+aw && by < ay+ah;
         };
 
-        
+        //Who is defending the balll
         var player = this.ball.vel.x < 0 ? this.player1 : this.player2;
 
         if (bounding(player.x, player.y, player.width, player.height, this.ball.x, this.ball.y, this.ball.side, this.ball.side)) 
@@ -161,10 +172,33 @@ module.exports = class Game
         }
     }
 
+    checkScore()
+    {
+        if(this.player1.score > 5)
+        {
+            this.player1.score = 0;
+            this.player2.score = 0;
+            this.endGame();
+            this.io.to(this.name).emit('chat-message', "Player 1 has won.")
+        }
+        else if(this.player2.score > 5)
+        {
+            
+            this.player1.score = 0;
+            this.player2.score = 0;
+            this.endGame();
+            this.io.to(this.name).emit('chat-message', "Player 2 has won.")
+        }
+    }
+
     update()
     {
         //Update Ball Position
         this.updateBall();
+
+        //Check Game Score
+
+        this.checkScore();
         //Send game info to player2;
         this.player2Socket.emit('game-update', this.player2, this.player1, this.ball);
         //Send game info to player1;
