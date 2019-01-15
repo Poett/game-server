@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-const port = 8082; 
+const port = process.env.PORT || 8082; 
 
 //Game Server
 var GameServer = require('./server');
